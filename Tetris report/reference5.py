@@ -549,7 +549,7 @@ def main():
                     movedown2= False
                     '''
                 elif event.key == K_ESCAPE:
-                    pygame.quit()
+                    #pygame.quit()
                     #sys.exit()
                     return_to_page = True
                     break
@@ -557,12 +557,13 @@ def main():
                 elif event.key == K_RSHIFT:
                     rightshift2 = False
                     '''
-            elif pause == True:
-                break
+            
             elif event.type == QUIT :
                 pygame.quit()
                 #sys.exit()
                 return_to_page = True
+                break
+            elif pause == True:
                 break
                 '''
             elif event.type == KEYDOWN:
@@ -674,7 +675,7 @@ def main():
             if trial_1[i] == 'Q' :
                 #pygame.mixer.music.stop()
                 pygame.quit()
-                #sys.exit()
+                sys.exit()
             elif trial_1[i] == 'L' :
                 MoveLeftSide(1, droppingblock1)
                 moveleft1 = True
@@ -810,7 +811,7 @@ def main():
             if trial_2[i] == 'Q' :
                 #pygame.mixer.music.stop()
                 pygame.quit()
-                #sys.exit()
+                sys.exit()
             elif trial_2[i] == 'L' :
                 MoveLeftSide(2, droppingblock2)
                 moveleft2 = True
@@ -898,8 +899,8 @@ def main():
                     droppingblock_2 = Tetris(thesecondone2)
                 else:
                     droppingblock_2 = hold2
-                    droppingblock_2.center[0] = 4
-                    droppingblock_2.center[1] = 0
+                droppingblock_2.center[0] = 4
+                droppingblock_2.center[1] = 0
 
                 while topmost(droppingblock2) < 0:
                     droppingblock2.center[1] +=1  
@@ -1108,24 +1109,37 @@ def main():
 
                 number, CompleteRow = FindCompleteRow(1, Allblocks1)
                 completerow = CompleteRow[:]
+                if len(completerow) > 0:
+                    last_score1 = score1
+                    last_punishment1 = punishment1
+
                 score1 += len(completerow)
 
                 punishmentscoring(number, completerow) 
                 EliminateRowBlocks((number, CompleteRow))
 
+                #print('Allblocks1')
+                #print( [[Allblocks1[j][i].state for i in range(10)] for j in range(-AboveLine,20)])
                 thechoice = random.choice(['I','J','L','O', 'S', 'T', 'Z'])
                 thechoice = all_the_choice1[0]
                 all_the_choice1 = all_the_choice1[1:]
+                count1 += 1
+                print('count1', count1)
                 thefirsttwochoice1 = thefirsttwochoice1[1:]+[thechoice]
                 thefirstone1 = thefirsttwochoice1[0]
                 thesecondone1 = thefirsttwochoice1[1]
                 droppingblock1 = Tetris(thefirstone1)
-                print('Allblocks1')
-                print([[Allblocks1[j][i].state for i in range(10)] for j in range(-AboveLine,20)])
 
                 if PunishmentExecution(2) == True:
                     droppingblock1.color = WHITE
-
+                    last_punishment2 = punishment2
+                    DrawBoard(1, thesecondone1, hold1, score1, last_punishment2, PUNISHCOLOR = BACK_GROUND_COLOR)
+                    punishment2 -= 15
+                if len(completerow) > 0:
+                    DrawBoard(2, thesecondone2, hold2, score2, last_punishment1, PUNISHCOLOR = BACK_GROUND_COLOR)
+                    DrawBoard(1, thesecondone1, hold1, last_score1, punishment2, SCORECOLOR = BACK_GROUND_COLOR)
+                DrawBoard(2, thesecondone2, hold2, score2, punishment1)
+                DrawBoard(1, thesecondone1, hold1, score1, punishment2) 
                 while topmost(droppingblock1) < 0:
                     droppingblock1.center[1] +=1
                 if option_check(droppingblock1, Allblocks1) == False:
@@ -1143,7 +1157,7 @@ def main():
                 trial_1 = computer(droppingblock1, Allblocks1)[0]
                 count1 += 1
                 print('count1:', count1)
-
+                droppingblock1.center[0] = 4
 
                 print('next =', thesecondone1)
                 if hold1 == None:
@@ -1189,24 +1203,39 @@ def main():
 
                 number, CompleteRow = FindCompleteRow(2, Allblocks2)
                 completerow = CompleteRow[:]
-
+                if len(completerow) > 0:
+                    last_score2 = score2
+                    last_punishment2 = punishment2
                 score2 += len(completerow)
-                print('Allblocks2')
-                print([[Allblocks2[j][i].state for i in range(10)] for j in range(-AboveLine,20)])
 
                 punishmentscoring(number, completerow) 
                 EliminateRowBlocks((number, CompleteRow))
+
+                #print('Allblocks2')
+                #print( [[Allblocks2[j][i].state for i in range(10)] for j in range(-AboveLine,20)])
                 thechoice = random.choice(['I','J','L','O', 'S', 'T', 'Z'])
                 thechoice = all_the_choice2[0]
                 all_the_choice2 = all_the_choice2[1:]
+                count2 += 1
+                print('count2', count2)
                 thefirsttwochoice2 = thefirsttwochoice2[1:]+[thechoice]
                 thefirstone2 = thefirsttwochoice2[0]
                 thesecondone2 = thefirsttwochoice2[1]
                 droppingblock2 = Tetris(thefirstone2)
+                record2 = False
+
                 if PunishmentExecution(1) == True:
                     droppingblock2.color = WHITE
+                    last_punishment1 = punishment1
+                    DrawBoard(2, thesecondone2, hold2, score2, last_punishment1, PUNISHCOLOR = BACK_GROUND_COLOR)
+                    punishment1 -= 15
+                if len(completerow) > 0:
+                    DrawBoard(2, thesecondone2, hold2, last_score2, punishment1, SCORECOLOR = BACK_GROUND_COLOR)
+                    DrawBoard(1, thesecondone1, hold1, score1, last_punishment2, PUNISHCOLOR = BACK_GROUND_COLOR)
+                DrawBoard(2, thesecondone2, hold2, score2, punishment1)
+                DrawBoard(1, thesecondone1, hold1, score1, punishment2) 
                 if hold2 == None:
-                    droppingblock2 = Tetris(thesecondone2)
+                    droppingblock_2 = Tetris(thesecondone2)
                 else:
                     droppingblock_2 = hold2
 
@@ -1215,7 +1244,8 @@ def main():
 
                 while topmost(droppingblock_2) < 0:
                     droppingblock_2.center[1] +=1
-
+                droppingblock_2.center[0] = 4
+                droppingblock_2.center[1] = 0
                 record2  = False 
                 if option_check(droppingblock2, Allblocks2):   
                     if option_check(droppingblock_2, Allblocks2):
@@ -1225,7 +1255,7 @@ def main():
                         if 'SHIFT' in trial_2:
                             #trial_2 = ['START'] + trial_2
                             print('trial_2:', trial_2)
-                            break
+
                     else:
                         trial_2 = computer(droppingblock2, Allblocks2)[0]
                 else:
@@ -1234,7 +1264,7 @@ def main():
                         trial_2.insert(1, 'SHIFT')
                         #trial_2 = ['START'] + trial_2
                         print('trial_2:', trial_2)
-                        break
+
                     else:
                         for i in range(10):
                             Game_Over_Animation(Allblocks2)
@@ -1247,7 +1277,9 @@ def main():
                         gameover = True
                         player_1_win = True
                         print('gameover, player 1 wins!')
-
+                        
+                droppingblock_2.center[0] = 4
+                droppingblock2.center[0] = 4
                 print('trial_2:',trial_2)
                 print('next2 =', thesecondone2)
                 if hold2 == None:
@@ -1723,11 +1755,11 @@ def computer(InputTetris, Allblocks):
         #print(finalround)
         #print(finalroundwork)
         decide2 = random.choice(ultimate)
-        the_work = finalroundwork[decide2] + ['S']
+        the_work = finalroundwork[decide2] + ['S'] 
         InputTetris.rotationstate = 0
         return [the_work, max(_all)]
     else:
-        the_work = competitionlist[finallocation[0]] +  ['S']
+        the_work = competitionlist[finallocation[0]] +  ['S']  
         InputTetris.rotationstate = 0
         return [the_work, max(_all)]
 

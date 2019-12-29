@@ -2,7 +2,7 @@
 import pygame, sys, random, time
 from pygame.locals import *
 FPS=30
-WINDOWWIDTH = 1366
+WINDOWWIDTH = 1400
 WINDOWHEIGHT = 768
 BLOCK_GAP = 1
 #註 : 與 reference1.py 不同的地方會有 diff: 標記在前
@@ -422,7 +422,7 @@ def main():
     FPSCLOCK = pygame.time.Clock()
     pygame.display.set_caption('Tetris')
     
-    DISPLAYSURF = pygame.display.set_mode((1366,768))
+    DISPLAYSURF = pygame.display.set_mode((1400,768))
     DISPLAYSURF.fill(BACK_GROUND_COLOR)
     
     image = {}
@@ -518,7 +518,7 @@ def main():
                 if event.key ==K_p:
                     if pause == False:
                         pause = True
-                        break
+
                     #pause
                     else:
                         pause = False
@@ -534,17 +534,21 @@ def main():
                 elif event.key == K_DOWN:
                     movedown2= False
                 elif event.key == K_ESCAPE:
-                    pygame.quit()
+                    #pygame.quit()
                     #sys.exit()
                     return_to_page = True
                     break
-                elif event.key == K_RSHIFT:
+                elif event.key == K_RSHIFT or event.key == K_LSHIFT:
                     rightshift2 = False
             
             elif event.type == QUIT :
-                pygame.quit()
+                #pygame.quit()
                 #sys.exit()
-                retrun_to_page = True
+                return_to_page = True
+                break
+            elif pause:
+                break
+            elif gameover:
                 break
             elif event.type == KEYDOWN:
                 if event.key == K_LEFT :
@@ -635,7 +639,7 @@ def main():
                     print('score2 =', score2)
                     #DrawBoard(2, thesecondone2, hold2, score2, punishment2)
                     #just move to the bottom without animation
-                elif event.key == K_RSHIFT:
+                elif event.key == K_RSHIFT or event.key == K_LSHIFT:
                     if record2 == False:
                         rightshift2 = True   
                  
@@ -806,6 +810,7 @@ def main():
                 #just move to the bottom without animation
                 #trial_2 = trial_2[1:]
                 droppingblock1.center[0] = 4
+                droppingblock_1.center[0] = 4
                 break
             elif trial[i] == 'SHIFT':
                 rightshift1 = True
@@ -864,9 +869,7 @@ def main():
         
         if rightshift1 == True:
             if hold1 == None:
-                thechoice = random.choice(['I','J','L','O', 'S', 'T', 'Z'])
-                thefirsttwochoice1 = thefirsttwochoice1[1:]+[thechoice]
-                test = Tetris(thefirsttwochoice1[0])
+                test = Tetris(thefirsttwochoice1[1])
                 test.center = droppingblock1.center
                 if holdtest(1, test, droppingblock1)==True:
                     print('hold')
@@ -1027,16 +1030,19 @@ def main():
                             DrawBoard(1,thesecondone1, hold1, score1, punishment2)
                             DrawBoard(2,thesecondone2, hold2, score2, punishment1)
                             pygame.time.delay(100)
-                            
+
                         WinnerAnimation(2, False)
                         perform = True
                         gameover = True
                         player_2_win = True
-
+                        
+                
                         
                 while topmost(droppingblock1) < 0:
                     droppingblock1.center[1] +=1
-                
+                droppingblock_1.center[0] = 4
+                droppingblock1.center[0] = 4
+                print(trial)
                 print('next =', thesecondone1)
                 if hold1 == None:
                     print('hold =', hold1)
@@ -1170,7 +1176,7 @@ def holdtest(number, hold, droppingblock):# diff: we need to rely on the input n
 '''DIDN'T DRAW y<0'''
 def timer_board(FONTCOLOR = RED, BACKCOLOR = BACK_GROUND_COLOR, TEXT_FONT = 40):
     global showtime 
-    pygame.init()
+    
     fontObj = pygame.font.Font('freesansbold.ttf', TEXT_FONT)
     textSurfaceObjTime = fontObj.render(str(showtime + 1), True, BACKCOLOR,BACKCOLOR)
     textRectObjTime = textSurfaceObjTime.get_rect()

@@ -510,7 +510,7 @@ def main():
                     else:
                         pause = False
                         start_ticks = pygame.time.get_ticks()
-                elif event.key == K_SLASH:
+                elif event.key == K_SLASH :
                     space2 = False
                 elif event.key == K_UP:
                     rotate2 = False
@@ -521,7 +521,7 @@ def main():
                 elif event.key == K_DOWN:
                     movedown2= False
                 elif event.key == K_ESCAPE:
-                    pygame.quit()
+                    #pygame.quit()
                     #sys.exit()
                     return_to_page = True
                     break
@@ -529,7 +529,7 @@ def main():
                     rightshift2 = False
                 elif event.key == K_w:
                     rotate1 = False
-                elif event.key == K_e:
+                elif event.key == K_LSHIFT:
                     space1 = False
                 elif event.key == K_a:
                     moveleft1 = False
@@ -537,14 +537,17 @@ def main():
                     moveright1 = False
                 elif event.key == K_s:
                     movedown1 = False
-                elif event.key == K_LSHIFT:
+                elif event.key == K_TAB :
                     rightshift1 = False
-            elif pause == True:
-                break
+
             elif event.type == QUIT :
                 pygame.quit()
                 #sys.exit()
                 return_to_page = True
+                break
+            elif pause == True:
+                break
+            elif gameover:
                 break
             elif event.type == KEYDOWN:
                 if event.key == K_LEFT :
@@ -665,7 +668,7 @@ def main():
                     movedown1 = True
                     lastMoveDownTime1 = time.time()
                     #accelerate the speed
-                elif event.key == K_e:
+                elif event.key == K_LSHIFT:
                     space1 = True
                     MoveDownDirectly(1, droppingblock1)
                     
@@ -729,7 +732,7 @@ def main():
                     record1 = False
                     print('score1 =', score1)
                     #just move to the bottom without animation
-                elif event.key == K_LSHIFT:
+                elif event.key == K_TAB:
                     if record1 == False:
                         rightshift1 = True
                     

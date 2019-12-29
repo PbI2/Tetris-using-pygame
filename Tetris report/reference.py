@@ -442,7 +442,7 @@ def main():
     while topmost(droppingblock) < 0:
         droppingblock.center[1] +=1
     while True:
-
+        
         for event in pygame.event.get():
             # When QUIT or press the esc key, quit the game
             if event.type == KEYUP:
@@ -500,7 +500,7 @@ def main():
                     #sys.exit()
                     return_to_page = True
                     break
-                elif event.key == K_RSHIFT:
+                elif event.key == K_RSHIFT or event.key == K_LSHIFT :
                     rightshift = False
                     '''
                 elif event.key == K_m:
@@ -521,6 +521,8 @@ def main():
                 pygame.quit()
                 #sys.exit()
                 return_to_page = True
+                break
+            elif gameover:
                 break
             elif event.type == KEYDOWN:
                 if event.key == K_LEFT :
@@ -598,7 +600,7 @@ def main():
                             sys.exit()
                             '''
                     #just move to the bottom without animation
-                elif event.key == K_RSHIFT:
+                elif event.key == K_RSHIFT or event.key == K_LSHIFT:
                     if record == False:
                         rightshift = True
         fallingspeedlist = [0.5 ,0.5, 0.44, 0.38, 0.32, 0.26, 0.21, 0.17, 0.13, 0.10, 0.08, 0.06, 0.04, 0.03, 0.02, 0.02] 
