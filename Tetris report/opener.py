@@ -26,7 +26,7 @@ def Opening_Screening():
     global DISPLAYSURF, FPSCLOCK
     pygame.init()
     DISPLAYSURF = pygame.display.set_mode((WINDOWWIDTH,WINDOWHEIGHT))
-    pygame.display.set_caption("Plat Tetris!")
+    pygame.display.set_caption("Play Tetris!")
     FPSCLOCK = pygame.time.Clock()
     
     
