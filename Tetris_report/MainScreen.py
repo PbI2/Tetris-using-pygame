@@ -1,3 +1,9 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[ ]:
+
+
 # the animation used in the game
 import pygame, random, time, sys, os
 from pygame.locals import *
@@ -32,14 +38,19 @@ def Opening_Screening():
     
     DISPLAYSURF.fill(BACK_GROUND_COLOR)
     
-    TextAnimation(WINDOWWIDTH/2, WINDOWHEIGHT/4, 'Tetris', 100, GREEN)
+    #TextAnimation(WINDOWWIDTH/2, WINDOWHEIGHT/4, 'Tetris', 100, GREEN)
+    #TitleRect = TEXT_Rect(WINDOWWIDTH/2, WINDOWHEIGHT/4, 'Tetris' , 100)
     
-    TitleRect = TEXT_Rect(WINDOWWIDTH/2, WINDOWHEIGHT/4, 'Tetris' , 100)
+    StartAnimation()
+    
+    
+    
+    
     TextAnimation(WINDOWWIDTH/2, WINDOWHEIGHT/2,  'Single Player', 50, BLACK, WHITE)
     SinglePlayerRect = TEXT_Rect(WINDOWWIDTH/2, WINDOWHEIGHT/2, 'Single Player' , 50)
     print(SinglePlayerRect)
     
-    TextAnimation(WINDOWWIDTH/2, WINDOWHEIGHT/2 +100,'Player VS Computer', 50, BLACK, WHITE)
+    TextAnimation(WINDOWWIDTH/2, WINDOWHEIGHT/2 +100,'Computer VS Player', 50, BLACK, WHITE)
     PlayervsComputerRect = TEXT_Rect(WINDOWWIDTH/2, WINDOWHEIGHT/2+100, 'Player VS Computer' , 50)
     
     
@@ -55,7 +66,9 @@ def Opening_Screening():
     mousey = 0
     
     LINEWIDTH = 3
+     
     while True:
+   
         mouseclicked = False
         for event in pygame.event.get():
             
@@ -69,7 +82,18 @@ def Opening_Screening():
             elif event.type == MOUSEMOTION:
                 mousex, mousey = event.pos
                 
+                for rect in [SinglePlayerRect, PlayervsComputerRect, PlayervsPlayerRect,  ComputervsComputerRect]:
+                    if  IsInRect(mousex, mousey, rect):
+                        pygame.draw.rect(DISPLAYSURF, YELLOW, rect, 3)
+                    else:
+                        pygame.draw.rect(DISPLAYSURF, WHITE, rect, 3)
+                    #
                 
+          
+            
+            
+            
+            
             
             
             elif event.type == MOUSEBUTTONUP:
@@ -114,11 +138,26 @@ def Opening_Screening():
                 Computer_vs_Computer.main()
                 RestartProgram()
                 #
-                    
         
+            
+            
         
         pygame.display.update()
         FPSCLOCK.tick(FPS)    
+
+def StartAnimation():
+    text=['T','E','T','R','I','S']
+    color = [RED, ORANGE, YELLOW, GREEN, AQUA, PURPLE]
+    location={}
+    for i in range(6):
+        location[i] = (WINDOWWIDTH/2 + (i-2.5)* 100 , WINDOWHEIGHT/4)
+
+    for i in range(6):   
+        TextAnimation(location[i][0], location[i][1], text[i], 100, FRONTCOLOR = color[i],DISPLAY_TIME=750)
+        TextAnimation(location[i][0], location[i][1], text[i], 100, FRONTCOLOR = color[i],DISPLAY_TIME=0)
+            
+    pygame.display.update()
+    
         
 def RestartProgram():    
     print('restart')
@@ -162,3 +201,11 @@ def IsInRect(x,y,rect):
 
 if __name__ == '__main__':
     Opening_Screening()
+
+
+# In[ ]:
+
+
+Opening_Screening()
+
+
